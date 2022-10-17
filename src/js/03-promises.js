@@ -15,22 +15,16 @@ function onInput(e) {
 
 function onSubmit(e) {
   e.preventDefault();
-  const {delay, step, amount } = formData;
-    let time = delay;
-  
-  const intervalId = setInterval(() => {
-     
-    if (counter === amount) {
-      clearInterval(intervalId);
-      return;
-    }
-    
-    createPromise(counter, time)
+  const { delay, step, amount } = formData;
+  let time = delay;
+  for (let i = 1; i <= amount; i += 1) {
+    createPromise(i, time)
       .then(success)
-      .catch(failed);
-    counter += 1;
+      .catch(failed)
     time += step;
-  }, time );
+  }
+    
+    
   
   form.reset();     
 }
@@ -38,11 +32,13 @@ function onSubmit(e) {
 function createPromise(position, delay) {
   return new Promise((resolve, reject) => {
     const shouldResolve = Math.random() > 0.3;
-    if (shouldResolve) {
+    setTimeout(() => {
+      if (shouldResolve) {
       resolve({ position, delay });
     } else {
       reject({ position, delay });
-      }  
+      }
+    }, delay)  
   });
 }
 
@@ -53,3 +49,4 @@ function success ({position, delay}) {
 function failed({ position, delay }) {
   Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`);
 }
+

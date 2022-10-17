@@ -57,8 +57,6 @@ function onStartBtn() {
 
 function clearClockFace() {
   clearInterval(intervalId)
-      refs.input.disabled = false;
-      refs.startBtn.disabled = false;
       getTimeComponents(convertMs(0));
 }
 
